@@ -1,6 +1,5 @@
 import express from 'express';
-import path from 'path';
-import os from 'node:os'
+import { Request, Response } from 'express';
 import projectRouter from './src/routes/project';
 import suiteRouter from './src/routes/suit';
 import testRouter from './src/routes/test';
@@ -14,7 +13,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.set("etag", false);
 
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server')
   logger.info("pino mssg logged");
 });

@@ -1,15 +1,15 @@
-import express from 'express';
+import express, {Request, Response} from 'express';
 import prisma from './../services/db.service';
 
 
-async function project_list(req: express.Request, res: express.Response) {
+async function project_list(req: Request, res: Response) {
   const projects = await prisma.projects.findMany();
   res
     .status(200)
     .json(projects);
 }
 
-async function project_details(req: express.Request, res: express.Response) {
+async function project_details(req: Request, res: Response) {
   const project = await prisma.projects.findUnique({
     where: {
       id: parseInt(req.params?.id)
@@ -21,7 +21,7 @@ async function project_details(req: express.Request, res: express.Response) {
   
 }
 
-async function project_suits(req: express.Request, res: express.Response) {
+async function project_suits(req: Request, res: Response) {
   const suits = await prisma.suits.findMany({
     where: {
       project_id: parseInt(req.params?.project_id)
@@ -33,15 +33,15 @@ async function project_suits(req: express.Request, res: express.Response) {
   
 }
 
-async function project_create_post(req: express.Request, res: express.Response) {
+async function project_create_post(req: Request, res: Response) {
   
 }
 
-async function project_update_post(req: express.Request, res: express.Response) {
+async function project_update_post(req: Request, res: Response) {
   
 }
 
-async function project_delete_post(req: express.Request, res: express.Response) {
+async function project_delete_post(req: Request, res: Response) {
   
 }
 

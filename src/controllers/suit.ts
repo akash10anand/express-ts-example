@@ -1,14 +1,14 @@
-import express from 'express';
+import express, {Request, Response} from 'express';
 import prisma from '../services/db.service';
 
-async function suit_list(req: express.Request, res: express.Response) {
+async function suit_list(req: Request, res: Response) {
   const suits = await prisma.suits.findMany();
   res
     .status(200)
     .json(suits);
 }
 
-async function suit_details(req: express.Request, res: express.Response) {
+async function suit_details(req: Request, res: Response) {
   const suit = await prisma.suits.findUnique({
     where: {
       id: parseInt(req.params?.id)
@@ -19,15 +19,15 @@ async function suit_details(req: express.Request, res: express.Response) {
     .json(suit);
 }
 
-async function suit_create_post(req: express.Request, res: express.Response) {
+async function suit_create_post(req: Request, res: Response) {
   
 }
 
-async function suit_update_post(req: express.Request, res: express.Response) {
+async function suit_update_post(req: Request, res: Response) {
   
 }
 
-async function suit_delete_post(req: express.Request, res: express.Response) {
+async function suit_delete_post(req: Request, res: Response) {
   
 }
 

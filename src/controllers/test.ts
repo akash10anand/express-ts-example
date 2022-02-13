@@ -1,14 +1,14 @@
-import express from 'express';
+import express, {Request, Response} from 'express';
 import prisma from '../services/db.service';
 
-async function test_list(req: express.Request, res: express.Response) {
+async function test_list(req: Request, res: Response) {
   const tests = await prisma.tests.findMany();
   res
     .status(200)
     .json(tests);
 }
 
-async function test_details(req: express.Request, res: express.Response) {
+async function test_details(req: Request, res: Response) {
   const suit = await prisma.tests.findUnique({
     where: {
       id: parseInt(req.params?.id)
@@ -19,15 +19,15 @@ async function test_details(req: express.Request, res: express.Response) {
     .json(suit);
 }
 
-async function test_create_post(req: express.Request, res: express.Response) {
+async function test_create_post(req: Request, res: Response) {
   
 }
 
-async function test_update_post(req: express.Request, res: express.Response) {
+async function test_update_post(req: Request, res: Response) {
   
 }
 
-async function test_delete_post(req: express.Request, res: express.Response) {
+async function test_delete_post(req: Request, res: Response) {
   
 }
 
