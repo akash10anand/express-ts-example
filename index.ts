@@ -1,45 +1,28 @@
 import express from 'express';
 import path from 'path';
-import prisma from './src/services/db.service';
-// rest of the code remains same
+import os from 'node:os'
+import projectRouter from './src/routes/project';
+import suiteRouter from './src/routes/suit';
+import testRouter from './src/routes/test';
+import logger from './src/utils/logger';
+
+
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
+app.set("etag", false);
 
-function fibonacci(num: number): number {
-  if (num <= 1) return num;
-  return fibonacci(num - 1) + fibonacci(num - 2);
-}
+app.get('/', (req, res) => {
+  res.send('Express + TypeScript Server')
+  logger.info("pino mssg logged");
+});
 
-app.get('/', (req, res) => res.send('Express + TypeScript Server'));
-
-app.get('/projects', async (req, res) => {
-  const projects = await prisma.projects.findMany();
-  res
-    .status(200)
-    .json(projects);
-})
-
-app.get('/home', async (req, res) => {
-  res
-    .status(200)
-    .sendFile(path.resolve(__dirname, 'src/pages/home.html'));
-})
-
-app.get('/login', async (req, res) => {
-  // let x = fibonacci(40);
-  res
-    .status(200)
-    .sendFile(path.resolve(__dirname, 'src/pages/login.html'));
-})
-
-app.post('/login', async (req, res) => {
-  console.log(req.body);
-  res.send('Got a POST request');
-})
+app.use('/project', projectRouter);
+app.use('/suit', suiteRouter);
+app.use('/test', testRouter);
 
 app.listen(PORT, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
+  console.log(`⚡️[server]: Server is running at port ${PORT}`);
 });

@@ -9,7 +9,31 @@ datasource db {
 
 model projects {
   id          Int      @id @default(autoincrement())
-  created_at  DateTime @default(now()) @db.Timestamp(6)
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
   name        String?  @db.VarChar(255)
   description String?  @db.VarChar(255)
+  modified_at DateTime @default(now()) @db.Timestamptz(6)
+  suits       suits[]
+}
+
+model suits {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  project_id  Int
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  modified_at DateTime @default(now()) @db.Timestamptz(6)
+  projects    projects @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "suits_relation_1")
+  tests       tests[]
+}
+
+model tests {
+  id           Int      @id @default(autoincrement())
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+  modified_at  DateTime @default(now()) @db.Timestamptz(6)
+  suite_id     Int
+  name         String   @db.VarChar(255)
+  has_children Int      @default(0)
+  description  String?  @db.VarChar(500)
+  parent_id    Int?
+  suits        suits    @relation(fields: [suite_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tests_relation_1")
 }
