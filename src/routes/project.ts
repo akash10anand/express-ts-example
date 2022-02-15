@@ -16,7 +16,7 @@ projectRouter.get('/:id', project_details);
 
 projectRouter.get('/:project_id/suits', project_suits);
 
-projectRouter.post('/create', project_create_post);
+projectRouter.post('/', project_create_post);
 
 projectRouter.get('/:id/edit', project_update_post);
 

@@ -10,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(express.static('public'));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("etag", false);
 
@@ -19,7 +20,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/project', projectRouter);
-app.use('/suit', suiteRouter);
+app.use('/suite', suiteRouter);
 app.use('/test', testRouter);
 
 app.listen(PORT, () => {
