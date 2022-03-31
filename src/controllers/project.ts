@@ -1,5 +1,8 @@
+import { Prisma } from '@prisma/client';
 import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import prisma from './../services/db.service';
+
 
 
 async function project_list(req: Request, res: Response) {
@@ -34,16 +37,34 @@ async function project_suits(req: Request, res: Response) {
 
 async function project_create_post(req: Request, res: Response) {
   const body = req.body;
-  console.log(body);
-  await prisma.projects.create({
-    data: {
-      name: body.name,
-      description: body?.description
+  const projectData = {
+    name: body.name,
+    description: body?.description
+  }
+  try {
+    await prisma.projects.create({
+      data: projectData
+    })
+    res
+      .status(200)
+      .json({
+        "status": "success",
+        "data": projectData
+      })
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      console.error(
+        `${error}`
+      )
+      res
+        .status(StatusCodes.CONFLICT)
+        .json({
+          "status": "failed",
+          "message": "Non unique value",
+          "meta": error?.meta
+        })
     }
-  })
-  res
-    .status(200)
-    .json({ "msg": "Project created succesfully." })
+  }
 }
 
 async function project_update_post(req: Request, res: Response) {
